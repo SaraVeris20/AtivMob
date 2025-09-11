@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.20"
 }
 
 android {
@@ -11,7 +12,7 @@ android {
     defaultConfig {
         applicationId = "com.example.ativmob"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -20,7 +21,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            val minifyEnabled = null
+            minifyEnabled; false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -48,36 +50,28 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation("com.google.accompanist:accompanist-permissions:<version>")
 
-    // Navegação
-    implementation("androidx.navigation:navigation-compose:2.7.6")
-
-    // ViewModel
+    // Dependências para ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 
-    // Permissões
-    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
+    // Dependências para serialização JSON
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
-    // Location Services
-    implementation("com.google.android.gms:play-services-location:21.0.1")
+    // Dependências do Ktor para requisições HTTP
+    implementation("io.ktor:ktor-client-android:2.3.5")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.5")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.3.0")
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.play.services.location)
 
-    // DataStore para tema
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-
-    // Ícones estendidos
-    implementation("androidx.compose.material:material-icons-extended:1.5.8")
-
+    // Dependências de teste
     testImplementation(libs.junit)
-    testImplementation("org.mockito:mockito-core:5.8.0")
-    testImplementation("org.mockito:mockito-inline:5.2.0")
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

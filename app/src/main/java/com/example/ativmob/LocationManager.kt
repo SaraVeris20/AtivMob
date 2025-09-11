@@ -64,9 +64,11 @@ class LocationManager(private val context: Context) {
                     continuation.resume(Result.success(locationData))
                 } else {
                     continuation.resume(
-                        Result.failure(
-                            task.exception ?: Exception("Não foi possível obter a localização")
-                        )
+                        Result.run {
+                            failure(
+                                                task.exception ?: Exception("Não foi possível obter a localização")
+                                            )
+                        }
                     )
                 }
             }
